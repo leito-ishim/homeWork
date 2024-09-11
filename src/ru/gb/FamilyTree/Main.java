@@ -9,39 +9,38 @@ import java.time.LocalDate;
 public class Main {
 
     public static void main(String[] args) {
-        FamilyTree ft = new FamilyTree("Ивановы");
+        FamilyTree ft = new FamilyTree();
 
-        Person person1 = new Person("Иванов", "Иван", LocalDate.parse("1989-10-31"), Gender.Male);
-        Person person2 = new Person("Иванов", "Петр", LocalDate.parse("1962-05-15"), Gender.Male);
-        Person person3 = new Person("Смирнова", "Анна", LocalDate.parse("1964-06-28"), Gender.Female);
-        Person person4 = new Person("Иванова", "Екатерина", LocalDate.parse("1991-11-02"), Gender.Female);
+        Person ivan = new Person("Иванов", "Иван", Gender.Male, LocalDate.parse("1989-10-31"));
+        Person petr = new Person("Иванов", "Петр", Gender.Male, LocalDate.parse("1962-05-15"));
+        Person anna = new Person("Смирнова", "Анна", Gender.Female, LocalDate.parse("1964-06-28"));
+        Person ekaterina = new Person("Иванова", "Екатерина", Gender.Female, LocalDate.parse("1991-11-02"), petr, anna);
 
-        System.out.println(person1.getAge());
-        System.out.println(person2.getAge());
-        ft.setFatherForPerson(person2, person1);
-        System.out.println(person1.getFather());
-        System.out.println(person1.getMother());
+        ft.addPerson(petr);
+        ft.addPerson(anna);
+        ft.setAddSpouses(petr, anna);
 
-        System.out.println(person2.getChildren());
+        ft.addPerson(ivan);
+        ivan.setFather(petr);
+        ivan.setMother(anna);
 
-//        System.out.println(person1);
-//        System.out.println(person2);
-//        System.out.println(person3);
-//        System.out.println(person4);
-//        System.out.println(person1.getGender());
+        petr.addChild(ivan);
+        anna.addChild(ivan);
 
-        ft.addFamilyMember(person1);
-        ft.addFamilyMember(person2);
-        ft.addFamilyMember(person3);
-        ft.addFamilyMember(person4);
+        ft.addPerson(ekaterina);
 
-//        System.out.println(ft);
-//        System.out.println(ft.showAllFamilyMembers());
-//        System.out.println(ft.getFamilyMembers());
-//        System.out.println(ft.getFamilyMember("Иван"));
+        Person sveta = new Person("Волкова", "Светлана", Gender.Female, LocalDate.parse("1990-02-21"));
+
+        ft.addPerson(sveta);
+        ft.setAddSpouses(ivan, sveta);
+
+        Person gleb = new Person("Иванов", "Глеб", Gender.Male, LocalDate.parse("2017-11-01"), ivan,sveta);
+
+        ft.addPerson(gleb);
+
+
+        System.out.println(ft);
+
     }
-
-
-
 
 }
