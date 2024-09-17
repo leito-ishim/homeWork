@@ -1,13 +1,14 @@
 package ru.gb.FamilyTree.family_tree;
 
-import ru.gb.FamilyTree.person.Gender;
-import ru.gb.FamilyTree.person.Person;
+import ru.gb.FamilyTree.person.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
-public class FamilyTree implements Serializable {
+public class FamilyTree implements Serializable, Iterable<Person> {
 //    private String nameTree;
     private long personId;
     private final List<Person> familyMembersList;
@@ -149,6 +150,22 @@ public class FamilyTree implements Serializable {
         return sb.toString();
     }
 
+    @Override
+    public Iterator<Person> iterator() {
+        return new PersonIterator(familyMembersList);
+    }
+
+    public void sortByName() {
+        familyMembersList.sort(new PersonComparatorByName());
+    }
+
+    public void sortByGender() {
+        familyMembersList.sort(new PersonComparatorByGender());
+    }
+
+    public void sortByAge() {
+        familyMembersList.sort(new PersonComparatorByAge());
+    }
 
 
 //    public String showAllFamilyMembers() {

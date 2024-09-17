@@ -6,7 +6,12 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Person implements Serializable {
+public class Person implements Serializable, Comparable<Person> {
+    @Override
+    public int compareTo(Person o) {
+        return this.name.compareTo(o.name);
+    }
+
     private long id;
     private String name, surname, patronymicName; // Имя, Фамилия, Отчество (задается, когда устанавливается отец)
     private LocalDate dateOfBirth, dateOfDeath; // Даты рождения и смерти
