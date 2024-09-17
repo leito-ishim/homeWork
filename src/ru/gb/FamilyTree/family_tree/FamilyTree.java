@@ -3,10 +3,11 @@ package ru.gb.FamilyTree.family_tree;
 import ru.gb.FamilyTree.person.Gender;
 import ru.gb.FamilyTree.person.Person;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FamilyTree {
+public class FamilyTree implements Serializable {
 //    private String nameTree;
     private long personId;
     private final List<Person> familyMembersList;

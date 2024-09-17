@@ -1,11 +1,12 @@
 package ru.gb.FamilyTree.person;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Person {
+public class Person implements Serializable {
     private long id;
     private String name, surname, patronymicName; // Имя, Фамилия, Отчество (задается, когда устанавливается отец)
     private LocalDate dateOfBirth, dateOfDeath; // Даты рождения и смерти

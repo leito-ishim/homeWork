@@ -3,12 +3,14 @@ package ru.gb.FamilyTree;
 import ru.gb.FamilyTree.family_tree.FamilyTree;
 import ru.gb.FamilyTree.person.Gender;
 import ru.gb.FamilyTree.person.Person;
+import ru.gb.FamilyTree.writer.FileHandler;
 
+import java.io.*;
 import java.time.LocalDate;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         FamilyTree ft = new FamilyTree();
 
         Person ivan = new Person("Иванов", "Иван", Gender.Male, LocalDate.parse("1989-10-31"));
@@ -40,6 +42,27 @@ public class Main {
 
 
         System.out.println(ft);
+
+//        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("familyTree.ser"));
+//        objectOutputStream.writeObject(ft);
+//        objectOutputStream.close();
+//
+//        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("familyTree.ser"));
+//        FamilyTree ftRestored = (FamilyTree) objectInputStream.readObject();
+//        objectInputStream.close();
+//
+//        System.out.println(ftRestored);
+//
+//        System.out.println(ftRestored.getByName("Иван"));
+//        System.out.println(ftRestored.getById(3).getParents());
+
+        FileHandler fh = new FileHandler("test");
+//        fh.save(ft);
+
+        FamilyTree ftRestored = (FamilyTree) fh.load();
+        System.out.println(ftRestored);
+
+
 
     }
 
