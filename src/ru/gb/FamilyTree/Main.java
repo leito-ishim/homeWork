@@ -16,6 +16,8 @@ public class Main {
         FamilyTree ft = createFamilyTree();
         Service service = new Service(ft);
 
+
+
         System.out.println(service.getFamilyTreeInfo());
         service.sortPersonsByAge();
         System.out.println(service.getFamilyTreeInfo());
