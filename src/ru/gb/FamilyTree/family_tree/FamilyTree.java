@@ -4,24 +4,23 @@ import ru.gb.FamilyTree.person.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-public class FamilyTree implements Serializable, Iterable<Person> {
+public class FamilyTree<E extends TreeNode<E>> implements Serializable, Iterable<E> {
 //    private String nameTree;
     private long personId;
-    private final List<Person> familyMembersList;
+    private final List<E> familyMembersList;
 
     public FamilyTree() {
         familyMembersList = new ArrayList<>();
     }
 
-    public FamilyTree(List<Person> familyMembersList) {
+    public FamilyTree(List<E> familyMembersList) {
         this.familyMembersList = familyMembersList;
     }
 
-    public boolean addPerson(Person person) {
+    public boolean addPerson(E person) {
         if (person == null) {
             return false;
         }
@@ -36,30 +35,26 @@ public class FamilyTree implements Serializable, Iterable<Person> {
         return false;
     }
 
-    private void addToParents(Person person) {
-        for (Person parent: person.getParents()) {
+    private void addToParents(E person) {
+        for (E parent: person.getParents()) {
             parent.addChild(person);
         }
     }
 
-    private void addToChildren(Person person) {
-        for (Person child: person.getChildren()) {
-            if (person.getGender().equals(Gender.Male.toString())) {
-                child.setFather(person);
-            } else if (person.getGender().equals(Gender.Female.toString())) {
-                child.setMother(person);
-            }
+    private void addToChildren(E person) {
+        for (E child: person.getChildren()) {
+            child.addParent(person);
         }
     }
 
-    public List<Person> getSiblings(long personId) {
-        Person person = getById(personId);
+    public List<E> getSiblings(long personId) {
+        E person = getById(personId);
         if (person == null) {
             return null;
         }
-        List<Person> siblings = new ArrayList<>();
-        for (Person parent: person.getParents()) {
-            for (Person child: parent.getChildren()) {
+        List<E> siblings = new ArrayList<>();
+        for (E parent: person.getParents()) {
+            for (E child: parent.getChildren()) {
                 if (!child.equals(person)) {
                     siblings.add(child);
                 }
@@ -68,8 +63,8 @@ public class FamilyTree implements Serializable, Iterable<Person> {
         return siblings;
     }
 
-    public Person getById(long personId) {
-        for (Person person: familyMembersList) {
+    public E getById(long personId) {
+        for (E person: familyMembersList) {
             if (person.getId() == personId) {
                 return person;
             }
@@ -77,9 +72,9 @@ public class FamilyTree implements Serializable, Iterable<Person> {
         return null;
     }
 
-    public List<Person> getByName(String name) {
-        List<Person> persons = new ArrayList<>();
-        for (Person person: familyMembersList) {
+    public List<E> getByName(String name) {
+        List<E> persons = new ArrayList<>();
+        for (E person: familyMembersList) {
             if (person.getName().equals(name)) {
                 persons.add(person);
             }
@@ -89,15 +84,15 @@ public class FamilyTree implements Serializable, Iterable<Person> {
 
     public boolean setAddSpouses(long personId1, long personId2) {
         if (checkId(personId1) && checkId(personId2)) {
-            Person person1 = getById(personId1);
-            Person person2 = getById(personId2);
+            E person1 = getById(personId1);
+            E person2 = getById(personId2);
             setAddSpouses(person1, person2);
             return true;
         }
         return false;
     }
 
-    public boolean setAddSpouses(Person person1, Person person2) {
+    public boolean setAddSpouses(E person1, E person2) {
         if (person1 != null && person2 != null) {
             person1.setSpouse(person2);
             person2.setSpouse(person1);
@@ -107,7 +102,7 @@ public class FamilyTree implements Serializable, Iterable<Person> {
         }
     }
 
-    public boolean removeSpouses(Person person1, Person person2) {
+    public boolean removeSpouses(E person1, E person2) {
         if (person1 != null && person2 != null) {
             person1.setSpouse(null);
             person2.setSpouse(null);
@@ -119,8 +114,8 @@ public class FamilyTree implements Serializable, Iterable<Person> {
 
     public boolean removeSpouses(long personId1, long personId2) {
         if (checkId(personId1) && checkId(personId2)) {
-            Person person1 = getById(personId1);
-            Person person2 = getById(personId2);
+            E person1 = getById(personId1);
+            E person2 = getById(personId2);
             removeSpouses(person1, person2);
             return true;
         } else {
@@ -130,7 +125,7 @@ public class FamilyTree implements Serializable, Iterable<Person> {
 
     public boolean remove(long personId) {
         if (checkId(personId)) {
-            Person person = getById(personId);
+            E person = getById(personId);
             return familyMembersList.remove(person);
         }
         return false;
@@ -144,27 +139,27 @@ public class FamilyTree implements Serializable, Iterable<Person> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Количество членов семьи: ").append(familyMembersList.size()).append("\n");
-        for (Person person: familyMembersList) {
+        for (E person: familyMembersList) {
             sb.append(person.toString()).append("\n");
         }
         return sb.toString();
     }
 
     @Override
-    public Iterator<Person> iterator() {
-        return new PersonIterator(familyMembersList);
+    public Iterator<E> iterator() {
+        return new FamilyTreeIterator<>(familyMembersList);
     }
 
     public void sortByName() {
-        familyMembersList.sort(new PersonComparatorByName());
+        familyMembersList.sort(new FamilyTreeComparatorByName<>());
     }
 
     public void sortByGender() {
-        familyMembersList.sort(new PersonComparatorByGender());
+        familyMembersList.sort(new FamilyTreeComparatorByGender<>());
     }
 
     public void sortByAge() {
-        familyMembersList.sort(new PersonComparatorByAge());
+        familyMembersList.sort(new FamilyTreeComparatorByAge<>());
     }
 
 

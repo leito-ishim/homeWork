@@ -1,12 +1,14 @@
 package ru.gb.FamilyTree.person;
 
+import ru.gb.FamilyTree.family_tree.TreeNode;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Person implements Serializable, Comparable<Person> {
+public class Person implements TreeNode<Person>, Comparable<Person> {
     @Override
     public int compareTo(Person o) {
         return this.name.compareTo(o.name);
@@ -128,6 +130,16 @@ public class Person implements Serializable, Comparable<Person> {
         }
         return false;
 
+    }
+
+    @Override
+    public boolean addParent(Person parent) {
+        if (parent.getGender().equals(Gender.Male)) {
+            setFather(parent);
+        } else if (parent.getGender().equals(Gender.Female)) {
+            setMother(parent);
+        }
+        return true;
     }
 
     public ArrayList<Person> getChildren() {
