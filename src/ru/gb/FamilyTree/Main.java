@@ -1,10 +1,11 @@
 package ru.gb.FamilyTree;
 
-import ru.gb.FamilyTree.family_tree.FamilyTree;
-import ru.gb.FamilyTree.person.Gender;
-import ru.gb.FamilyTree.person.Person;
-import ru.gb.FamilyTree.service.Service;
-import ru.gb.FamilyTree.writer.FileHandler;
+import ru.gb.FamilyTree.model.family_tree.FamilyTree;
+import ru.gb.FamilyTree.model.person.Gender;
+import ru.gb.FamilyTree.model.person.Person;
+import ru.gb.FamilyTree.model.service.Service;
+import ru.gb.FamilyTree.view.ConsoleUI;
+import ru.gb.FamilyTree.view.View;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -12,19 +13,21 @@ import java.time.LocalDate;
 public class Main {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-//        FamilyTree ft = new FamilyTree();
-        FamilyTree ft = createFamilyTree();
-        Service service = new Service(ft);
-
-
-
-        System.out.println(service.getFamilyTreeInfo());
-        service.sortPersonsByAge();
-        System.out.println(service.getFamilyTreeInfo());
-        service.sortPersonsByName();
-        System.out.println(service.getFamilyTreeInfo());
-        service.sortPersonsByGender();
-        System.out.println(service.getFamilyTreeInfo());
+        View view = new ConsoleUI();
+        view.start();
+        //        FamilyTree ft = new FamilyTree();
+//        FamilyTree ft = createFamilyTree();
+//        Service service = new Service(ft);
+//
+//
+//
+//        System.out.println(service.getFamilyTreeInfo());
+//        service.sortPersonsByAge();
+//        System.out.println(service.getFamilyTreeInfo());
+//        service.sortPersonsByName();
+//        System.out.println(service.getFamilyTreeInfo());
+//        service.sortPersonsByGender();
+//        System.out.println(service.getFamilyTreeInfo());
 
 
 
